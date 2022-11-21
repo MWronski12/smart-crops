@@ -1,0 +1,92 @@
+# ---------------------------------------------------------------------------- #
+#                               REFILLING SYSTEM                               #
+# ---------------------------------------------------------------------------- #
+REFILLING_FLAG = 0
+
+def sensor_high_isr_handler():
+    if (REFILLING_FLAG == 1):
+        main pump off
+        REFILLING_FLAG = 0
+
+
+def sensor_low_isr_handler():
+    REFILLING_FLAG = 1
+    main pump on
+
+
+def refill_system_config:
+    config sensors
+    add isr handlers
+
+
+# ---------------------------------------------------------------------------- #
+#                                PUMP CONTROLLER                               #
+# ---------------------------------------------------------------------------- #
+class msg:
+    pump_id
+    duration
+
+
+def timer_callback(timer):
+
+    pump_off(timer.id)
+
+
+def thread_pump_controller:
+
+    if msg:
+
+        new timer msg.duration
+        timer.id = msg.pump_id
+        start timer
+        pump_on(msg.pump_id)
+
+# ---------------------------------------------------------------------------- #
+#                                  MQTT Module                                 #
+# ---------------------------------------------------------------------------- #
+def thread_mqtt_listener:
+
+    subscribe(client_id + "/command/" + tank_id)
+
+    on msg:
+
+        match command_type:
+
+            case "pump_on":
+
+                send(
+                    target=thread_pump_controller,
+                    data={pump_id, duration}
+                )
+
+# ---------------------------------------------------------------------------- #
+#                                     Main                                     #
+# ---------------------------------------------------------------------------- #
+def main():
+    init gpio
+    create tasks
+    fill the tank if empty
+
+
+# ---------------------------------------------------------------------------- #
+#                              Configuration file                              #
+# ---------------------------------------------------------------------------- #
+Config options:
+
+- System:
+    USER_ID
+    TANK_ID
+
+- Gpio:
+    PUMP1_PIN
+    PUMP2_PIN
+    PUMP3_PIN
+    PUMP_MAIN_PIN
+    SENSOR_LOW_PIN
+    SENSOR_HIGH_PIN
+
+- Mqtt:
+    BROKER_ADDR
+    CERT
+    KEY
+    CA

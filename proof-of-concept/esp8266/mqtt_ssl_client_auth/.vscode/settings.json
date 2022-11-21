@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "mqtt_client.h": "c",
+        "mqtt_config.h": "c",
+        "esp_err.h": "c",
+        "esp_event.h": "c"
+    }
+}

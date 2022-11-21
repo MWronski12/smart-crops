@@ -1,0 +1,16 @@
+services:
+  server-poc:
+    build:
+      context: .
+    image: jsmolaga/smart-crops:latest
+    ports:
+    - 8080:8080
+    volumes:
+    - smart-crops:/app/artifacts
+  watchtower:
+    image: containrrr/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60
+volumes:
+  smart-crops:

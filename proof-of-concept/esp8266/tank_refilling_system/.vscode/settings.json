@@ -1,0 +1,12 @@
+{
+    "C_Cpp.errorSquiggles": "Enabled",
+    "files.associations": {
+        "freertos.h": "c",
+        "task.h": "c",
+        "esp_spi_flash.h": "c",
+        "esp_system.h": "c",
+        "stdio.h": "c",
+        "gpio.h": "c"
+    },
+    "cmake.configureOnOpen": false
+}
